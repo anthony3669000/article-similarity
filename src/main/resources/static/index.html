@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        .online_input {
+            box-sizing: border-box;
+            display: block;
+            width: 100%;
+            padding: 0 23px;
+            height: 200px;
+            border: 1px solid gainsboro;
+            line-height: 30px;
+            font-size: 16px;
+            color: #333;
+            vertical-align: middle;
+            outline: none; // 去除选中状态边框
+        }
+        .online_more {
+            padding-bottom: 32px;
+            text-align: center;
+        }
+
+        .online_refresh {
+            display: inline-block;
+            width: 160px;
+            padding: 9px 0;
+            background-color: #fcfdfd;
+            border: 1px solid #e1e3e6;
+            text-align: center;
+            line-height: 22px;
+            color: #333;
+            font-size: 16px;
+            cursor: pointer;
+            -webkit-transition: 0.2s ease-out;
+            -moz-transition: 0.2s ease-out;
+            -ms-transition: 0.2s ease-out;
+            -o-transition: 0.2s ease-out;
+            transition: 0.2s ease-out;
+            margin: 20px;
+            outline: none; // 去除选中状态边框
+        }
+        .online_result{
+            box-sizing: border-box;
+            display: block;
+            width: 100%;
+            padding: 0 23px;
+            height: 100px;
+            border: 1px solid gainsboro;
+            line-height: 30px;
+            font-size: 16px;
+            color: #333;
+            vertical-align: middle;
+            outline: none; // 去除选中状态边框
+        }
+    </style>
+    <script src="/static/js/jquery-1.7.2.js" integrity="sha256-FxfqH96M63WENBok78hchTCDxmChGFlo+/lFIPcZPeI=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btn").click(function () {
+                const first = $("#first").val();
+                const second = $("#second").val();
+                console.log(first);
+                console.log(second);
+                $.ajax({
+                    type: 'post',
+                    url: '/similarity',
+                    data:{"first":first,"second":second},
+                    success: function (data) {
+                        $(".online_result").text( "相似度："+ (data*100) + "%");
+                        console.log(data);
+                    }
+                })
+            });
+
+        })
+
+    </script>
+</head>
+<body>
+<div>
+    <div class="online_wrap">
+        <textarea type="text" id="first" name="input" placeholder="输入或粘贴要检测的文字" class="online_input"></textarea>
+        <br/>
+        <textarea type="text" id="second" name="input" placeholder="输入或粘贴要检测的文字" class="online_input"></textarea>
+    </div>
+
+    <div class="online_more">
+        <button id="btn" class="online_refresh" style="">开始检测</button>
+    </div>
+    <div class="online_result"></div>
+</div>
+</body>
+</html>
